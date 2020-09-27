@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-        entities = [SubjectDetails::class],
-        version = 1
+        entities = [SubjectDetails::class, AttendanceHistory::class],
+        version = 2
 )
 abstract class AttendanceDatabase : RoomDatabase() {
     abstract fun getAttendanceDao() : SubjectDao

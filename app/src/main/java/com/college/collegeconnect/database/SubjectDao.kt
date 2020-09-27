@@ -27,10 +27,6 @@ interface SubjectDao {
     @Query("SELECT subjectName FROM SubjectDetails")
     fun getSubjects():LiveData<List<String>>
 
-    // If a new query is needed to determine something, it goes here.
-    @Query("SELECT mostRecentChoice FROM SubjectDetails")
-    fun getMostRecentChoice():LiveData<Int>
-
-    @Query("")
-    fun getMostRecentChoices(): LiveData<List<Int>>
+    //@Query("SELECT id, punch FROM AttendanceHistory WHERE subjectId = :subjectId")
+    //fun getMostRecentChoices(subjectId: Int): LiveData<List<Int>>
 }

@@ -26,7 +26,7 @@ class AttendanceViewModel(application: Application) : AndroidViewModel(applicati
 
     fun addSubject(name: String) {
         viewModelScope.launch {
-            val subject = SubjectDetails(name, 0, 0, 0)
+            val subject = SubjectDetails(name, 0, 0)
             AttendanceDatabase(getApplication()).getAttendanceDao().add(subject)
             Toast.makeText(getApplication(), "Subject added successfully", Toast.LENGTH_SHORT).show()
         }

@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey
 data class SubjectDetails(
     val subjectName: String,
     val attended: Int,
-    val missed: Int,
-    val mostRecentChoice: Int
+    val missed: Int
 ) {
     @PrimaryKey( autoGenerate = true )
     var id:Int = 0

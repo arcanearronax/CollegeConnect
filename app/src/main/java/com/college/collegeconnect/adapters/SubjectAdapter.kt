@@ -23,7 +23,7 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
     var predict = 0f
     var attended: Int = 0
     var missed: Int = 0
-    var mostRecentChoice: Int = 0
+    var punch: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.subject_item, parent, false)
@@ -67,7 +67,7 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
         holder.increase.setOnClickListener {
             attended = subjects[position].attended
             missed = subjects[position].missed
-            val sub = SubjectDetails(subjects[position].subjectName, attended+1, missed, 1)
+            val sub = SubjectDetails(subjects[position].subjectName, attended+1, missed)
             sub.id = subjects[position].id
             viewModel.updateSubject(sub)
             notifyDataSetChanged()
@@ -75,7 +75,7 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
         holder.decrease.setOnClickListener {
             attended = subjects[position].attended
             missed = subjects[position].missed
-            val sub = SubjectDetails(subjects[position].subjectName, attended, missed+1, -1)
+            val sub = SubjectDetails(subjects[position].subjectName, attended, missed+1)
             sub.id = subjects[position].id
             viewModel.updateSubject(sub)
             notifyDataSetChanged()
@@ -94,20 +94,8 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
                     R.id.undo -> {
                         attended = subjects[position].attended
                         missed = subjects[position].missed
-                        mostRecentChoice = subjects[position].mostRecentChoice
 
-                        // Need to decrement the appropriate field or just clear mostRecentChoice
-                        if (mostRecentChoice == -1) {
-                            missed--
-                            mostRecentChoice = 0
-                        } else if (mostRecentChoice == 1) {
-                            attended--
-                            mostRecentChoice = 0
-                        } else {
-                            mostRecentChoice = 0
-                        }
-
-                        val sub = SubjectDetails(subjects[position].subjectName, attended, missed, mostRecentChoice)
+                        val sub = SubjectDetails(subjects[position].subjectName, attended, missed)
                         sub.id = subjects[position].id
                         subjects[position].id.let { viewModel.updateSubject(sub) }
                         notifyDataSetChanged()
