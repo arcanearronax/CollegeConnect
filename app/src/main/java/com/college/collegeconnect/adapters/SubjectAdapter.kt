@@ -1,5 +1,4 @@
 package com.college.collegeconnect.adapters
-
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.widget.*
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.college.collegeconnect.R
+import com.college.collegeconnect.database.AttendanceHistory
 import com.college.collegeconnect.database.SubjectDetails
 import com.college.collegeconnect.datamodels.DatabaseHelper
 import com.college.collegeconnect.datamodels.SaveSharedPreference
@@ -16,20 +16,17 @@ import com.college.collegeconnect.models.AttendanceViewModel
 import com.github.lzyzsd.circleprogress.ArcProgress
 import java.util.*
 import kotlin.collections.ArrayList
-
-class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private val context: Context, private val viewModel: AttendanceViewModel) : RecyclerView.Adapter<SubjectAdapter.ViewHolder>() {
+class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private val history: ArrayList<AttendanceHistory>, val context: Context, private val viewModel: AttendanceViewModel) : RecyclerView.Adapter<SubjectAdapter.ViewHolder>() {
     var per = 0
     var criteria = 0f
     var predict = 0f
     var attended: Int = 0
     var missed: Int = 0
-    var punch: Int = 0
-
+    //var punch: Int = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.subject_item, parent, false)
         return ViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         criteria = SaveSharedPreference.getAttendanceCriteria(context).toFloat()
         val current = subjects[position].subjectName
@@ -62,14 +59,13 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
             }
         }
         holder.circleProgress.progress = per
-
         //Button functionality
         holder.increase.setOnClickListener {
             attended = subjects[position].attended
             missed = subjects[position].missed
             val sub = SubjectDetails(subjects[position].subjectName, attended+1, missed)
             sub.id = subjects[position].id
-            viewModel.updateSubject(sub)
+            viewModel.updateSubject(sub, 1)
             notifyDataSetChanged()
         }
         holder.decrease.setOnClickListener {
@@ -77,7 +73,7 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
             missed = subjects[position].missed
             val sub = SubjectDetails(subjects[position].subjectName, attended, missed+1)
             sub.id = subjects[position].id
-            viewModel.updateSubject(sub)
+            viewModel.updateSubject(sub, -1)
             notifyDataSetChanged()
         }
         // This is where the triple vertical dot item is managed
@@ -89,15 +85,30 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
                 when (menuItem.itemId) {
                     R.id.delete -> {
                         subjects[position].id.let { viewModel.delete(it) }
-                            notifyDataSetChanged()
+                        notifyDataSetChanged()
                     }
                     R.id.undo -> {
-                        attended = subjects[position].attended
-                        missed = subjects[position].missed
-
+                        // Need to get a list of AttendanceHistory entries for the subject
+                        val historyList = ArrayList<AttendanceHistory>()
+                        for (entry in history) {
+                            if (entry.subjectId == subjects[position].id) {
+                                historyList.add(entry) // The most recent entry will be the first one
+                            }
+                        }
+                        // Need to evaluate new punch calculations
+                        if (historyList[0].punch == 1) {
+                            attended = subjects[position].attended - 1
+                        } else if (historyList[0].punch == -1) {
+                            missed = subjects[position].missed - 1
+                        } else {
+                            // We should only ever see 1 or -1,
+                            attended = subjects[position].attended
+                            missed = subjects[position].missed
+                        }
                         val sub = SubjectDetails(subjects[position].subjectName, attended, missed)
                         sub.id = subjects[position].id
-                        subjects[position].id.let { viewModel.updateSubject(sub) }
+                        viewModel.updateSubject(sub, 0)
+                        historyList[0].id.let { viewModel.deleteHistory(it) }
                         notifyDataSetChanged()
                     }
                 }
@@ -106,11 +117,9 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
             popup.show()
         }
     }
-
     override fun getItemCount(): Int {
         return subjects.size
     }
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var delete: ImageButton = itemView.findViewById(R.id.pop)
         var decrease: ImageView = itemView.findViewById(R.id.decrease)
@@ -119,6 +128,5 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
         var heading: TextView = itemView.findViewById(R.id.subjectHeading)
         var tv_bunk: TextView = itemView.findViewById(R.id.tv_bunk)
         var circleProgress: ArcProgress = itemView.findViewById(R.id.arc_progress)
-
     }
 }

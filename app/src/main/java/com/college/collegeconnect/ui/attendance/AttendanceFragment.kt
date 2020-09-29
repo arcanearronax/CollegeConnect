@@ -1,5 +1,4 @@
 package com.college.collegeconnect.ui.attendance
-
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.college.collegeconnect.R
 import com.college.collegeconnect.adapters.SubjectAdapter
 import com.college.collegeconnect.database.AttendanceDatabase
+import com.college.collegeconnect.database.AttendanceHistory
 import com.college.collegeconnect.database.SubjectDetails
 //import com.college.collegeconnect.datamodels.DatabaseHelper
 import com.college.collegeconnect.models.AttendanceViewModel
@@ -28,19 +28,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_attendance.*
 import java.util.*
-
 class AttendanceFragment : Fragment() {
     lateinit var bottomNavigationView: BottomNavigationView
-//    lateinit var mydb: DatabaseHelper
+    //    lateinit var mydb: DatabaseHelper
     lateinit var subject: TextInputLayout
     lateinit var addSubject: Button
     private lateinit var subjectRecycler: RecyclerView
     lateinit var tv: TextView
     lateinit var mCtx: Context
     lateinit var subjectList: ArrayList<SubjectDetails?>
+    lateinit var historyList: ArrayList<AttendanceHistory?>
     private lateinit var viewModel: AttendanceViewModel
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_attendance, container, false)
         subjectRecycler = view.findViewById(R.id.subjectRecyclerView)
@@ -55,14 +53,10 @@ class AttendanceFragment : Fragment() {
         })
         return view
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(requireActivity()).get(AttendanceViewModel::class.java)
     }
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         tv = requireActivity().findViewById(R.id.navTitle)
@@ -70,13 +64,13 @@ class AttendanceFragment : Fragment() {
         if (activity != null) bottomNavigationView = requireActivity().findViewById(R.id.bottomNav)
 //        mydb = DatabaseHelper(context)
         subjectList = ArrayList()
+        historyList = ArrayList()
         subjectRecycler.setHasFixedSize(true)
         subjectRecycler.layoutManager = LinearLayoutManager(context)
         load()
         addSubject.setOnClickListener { addSubject() }
     }
-
-//    private fun loadData() {
+    //    private fun loadData() {
 //        launch {
 //            context?.let {
 //                val subject = AttendanceDatabase(it).getAttendanceDao().getAttendance()
@@ -92,20 +86,24 @@ class AttendanceFragment : Fragment() {
 ////            subjectAdapter!!.notifyDataSetChanged()
 ////        }
 //    }
-
     private fun load() {
-
         val subject = context?.let {
             AttendanceDatabase(it).getAttendanceDao().getAttendance()
         }
+        val history = context?.let {
+            AttendanceDatabase(it).getAttendanceDao().getHistory()
+        }
+        val historyList = ArrayList<AttendanceHistory>()
+        history?.observe(requireActivity(), Observer {
+            historyList.addAll(it)
+        })
         subject?.observe(requireActivity(), Observer {
             val subjectList = ArrayList<SubjectDetails>()
             subjectList.addAll(it)
-            subjectAdapter = SubjectAdapter(subjectList, mCtx, viewModel)
+            subjectAdapter = SubjectAdapter(subjectList, historyList, mCtx, viewModel)
             subjectRecycler.adapter = subjectAdapter
         })
     }
-
     private fun addSubject() {
         if (subject.editText!!.text.toString().isEmpty() || subject.editText!!.text.toString() == "") subject.error = "Enter a Subject" else {
             viewModel.addSubject(subject.editText!!.text.toString())
@@ -118,8 +116,6 @@ class AttendanceFragment : Fragment() {
             subject.editText!!.setText("")
             subject.clearFocus()
         }
-
-
 //    private fun addSubject() {
 //        if (subject.editText!!.text.toString().isEmpty() || subject.editText!!.text.toString() == "") subject.error = "Enter a Subject" else {
 //            launch {
@@ -157,27 +153,22 @@ class AttendanceFragment : Fragment() {
 //            subject.clearFocus()
 //        }
     }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mCtx = context
     }
-
     override fun onStart() {
         super.onStart()
         bottomNavigationView.menu.findItem(R.id.nav_attendance).isChecked = true
     }
-
     override fun onResume() {
         super.onResume()
         bottomNavigationView.menu.findItem(R.id.nav_attendance).isChecked = true
     }
-
-//    override fun onDestroy() {
+    //    override fun onDestroy() {
 //        super.onDestroy()
 //        job.cancel()
 //    }
-
     companion object {
         lateinit var subjectAdapter: SubjectAdapter
         fun notifyChange() {

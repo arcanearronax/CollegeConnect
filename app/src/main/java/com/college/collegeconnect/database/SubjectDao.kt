@@ -1,11 +1,8 @@
 package com.college.collegeconnect.database
-
 import androidx.lifecycle.LiveData
 import androidx.room.*
-
 @Dao
 interface SubjectDao {
-
     @Insert
     suspend fun add(subject: SubjectDetails)
 
@@ -26,5 +23,16 @@ interface SubjectDao {
 
     @Query("SELECT subjectName FROM SubjectDetails")
     fun getSubjects():LiveData<List<String>>
+
+    // This is used to record a punch for a subject.
+    @Insert
+    suspend fun addHistory(historyEntry: AttendanceHistory)
+
+    // This is used to pull punch data for subjects
+    @Query("SELECT * FROM AttendanceHistory ORDER BY subjectId, id DESC")
+    fun getHistory(): LiveData<List<AttendanceHistory>>
+
+    @Query("DELETE FROM AttendanceHistory WHERE id = :id")
+    suspend fun deleteHistory(id:Int)
 
 }
