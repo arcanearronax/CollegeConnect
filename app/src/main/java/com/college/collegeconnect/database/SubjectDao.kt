@@ -32,7 +32,7 @@ interface SubjectDao {
     @Query("SELECT * FROM AttendanceHistory ORDER BY subjectId, id DESC")
     fun getHistory(): LiveData<List<AttendanceHistory>>
 
-    @Query("DELETE FROM AttendanceHistory WHERE id = :id")
-    suspend fun deleteHistory(id:Int)
+    @Query("DELETE FROM AttendanceHistory WHERE id = :uid")
+    suspend fun deleteHistory(uid:Int)
 
 }

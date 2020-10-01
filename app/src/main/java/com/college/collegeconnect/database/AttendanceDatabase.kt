@@ -25,5 +25,14 @@ abstract class AttendanceDatabase : RoomDatabase() {
                 AttendanceDatabase::class.java,
                 "AttendanceDatabase"
         ).build()
+
+//        private val CALLBACK = object : RoomDatabase.Callback() {
+//            override fun onCreate(db: AttendanceDatabase) {
+//                super.onCreate(db)
+//
+//                db.execSQL("CREATE TRIGGER ...")
+//            }
+//        }
+
     }
 }

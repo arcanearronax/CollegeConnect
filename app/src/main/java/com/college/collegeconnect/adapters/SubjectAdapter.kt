@@ -73,7 +73,7 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
             missed = subjects[position].missed
             val sub = SubjectDetails(subjects[position].subjectName, attended, missed+1)
             sub.id = subjects[position].id
-            viewModel.updateSubject(sub, -1)
+            viewModel.updateSubject(sub, 2)
             notifyDataSetChanged()
         }
         // This is where the triple vertical dot item is managed
@@ -88,6 +88,7 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
                         notifyDataSetChanged()
                     }
                     R.id.undo -> {
+
                         // Need to get a list of AttendanceHistory entries for the subject
                         val historyList = ArrayList<AttendanceHistory>()
                         for (entry in history) {
@@ -95,20 +96,30 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
                                 historyList.add(entry) // The most recent entry will be the first one
                             }
                         }
+
                         // Need to evaluate new punch calculations
-                        if (historyList[0].punch == 1) {
-                            attended = subjects[position].attended - 1
-                        } else if (historyList[0].punch == -1) {
-                            missed = subjects[position].missed - 1
-                        } else {
-                            // We should only ever see 1 or -1,
-                            attended = subjects[position].attended
-                            missed = subjects[position].missed
+                        when (historyList[0].punch) {
+                            1 -> {
+                                //attended = subjects[position].attended - 1
+                                attended = historyList[0].punch
+                                missed = subjects[position].missed
+                            }
+                            2 -> {
+                                attended = subjects[position].attended
+                                missed = subjects[position].missed - 1
+                            }
+                            else -> {
+                                // We should only ever see 1 or -1,
+                                attended = subjects[position].attended
+                                missed = subjects[position].missed
+                            }
                         }
                         val sub = SubjectDetails(subjects[position].subjectName, attended, missed)
                         sub.id = subjects[position].id
                         viewModel.updateSubject(sub, 0)
-                        historyList[0].id.let { viewModel.deleteHistory(it) }
+                        val histId = history.indexOf(historyList[0])
+                        history[histId].id.let { viewModel.deleteHistory(it) }
+                        //historyList.removeAt(0)
                         notifyDataSetChanged()
                     }
                 }
@@ -119,6 +130,10 @@ class SubjectAdapter(private val subjects: ArrayList<SubjectDetails>, private va
     }
     override fun getItemCount(): Int {
         return subjects.size
+    }
+
+    fun getHistCount(): Int {
+        return history.size
     }
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var delete: ImageButton = itemView.findViewById(R.id.pop)

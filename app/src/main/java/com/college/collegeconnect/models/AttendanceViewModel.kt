@@ -31,9 +31,11 @@ class AttendanceViewModel(application: Application) : AndroidViewModel(applicati
     fun updateSubject(subjectDetails: SubjectDetails, punch: Int) {
         viewModelScope.launch {
             AttendanceDatabase(getApplication()).getAttendanceDao().update(subjectDetails)
-            // Need to record a history entry
-            val historyEntry = AttendanceHistory(subjectDetails.id, punch)
-            AttendanceDatabase(getApplication()).getAttendanceDao().addHistory(historyEntry)
+            if (punch != 0) {
+                // Need to record a history entry
+                val historyEntry = AttendanceHistory(subjectDetails.id, punch)
+                AttendanceDatabase(getApplication()).getAttendanceDao().addHistory(historyEntry)
+            }
         }
     }
     fun delete( id: Int){
