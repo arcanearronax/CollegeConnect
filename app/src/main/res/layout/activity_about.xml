@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".settingsactivity.AboutActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".settingsActivity.AboutActivity">
 
         <include
             layout="@layout/toolbar_main"

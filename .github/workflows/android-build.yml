@@ -2,10 +2,15 @@ name: build
 
 on:
   push:
-    branches: [ development ]
-  pull_request:
-    branches: [ development ]
-
+    branches:
+      - 'development'
+      - 'master'
+      - 'mvvm'
+  pull_request_target:
+    branches:
+      - 'development'
+      - 'master'
+      - 'mvvm'
 jobs:
   build:
 

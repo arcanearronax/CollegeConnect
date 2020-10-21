@@ -6,7 +6,8 @@
     android:id="@+id/relativeshit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DownloadNotes">
+    android:fitsSystemWindows="true"
+    tools:context=".activities.DownloadNotes">
 
     <include
         android:id="@+id/toolbar"

@@ -2,10 +2,10 @@
     <string name="app_name">College Connect</string>
     <string name="display">COLLEGE CONNECT</string>
     <string name="logo">Logo</string>
-    <string name="log_in">Log In</string>
+    <string name="log_in">Login</string>
     <string name="password">Password</string>
     <string name="Preference">Preference</string>
-    <string name="username">Roll No</string>
+    <string name="rollno">Roll Number</string>
     <string name="sign_up">Sign Up</string>
     <string name="welcome">Welcome</string>
     <string name="title_activity_navigation">Navigation</string>
@@ -27,7 +27,7 @@
     <string name="collegename">College Name</string>
     <string name="log_out">Log Out</string>
     <string name="settings">Settings</string>
-    <string name="not_a_user_sign_up">Not a user? Sign Up</string>
+    <string name="not_a_user_sign_up">New here? <b>Register</b></string>
     <string name="welcome_message">WELCOME TO COLLEGE CONNECT</string>
     <string name="Internet"><u>Unable to Access Internet!</u></string>
     <string name="forgotpass"><u>Forgot Password?</u></string>
@@ -91,12 +91,12 @@
         <item>Great</item>
     </string-array>
     <string-array name="feedback1">
-    <item>Poor</item>
-    <item>Little</item>
-    <item>Fairly</item>
-    <item>Happy</item>
-    <item>Great</item>
-</string-array>
+        <item>Poor</item>
+        <item>Little</item>
+        <item>Fairly</item>
+        <item>Happy</item>
+        <item>Great</item>
+    </string-array>
 
     <string name="title_activity_settings2">Settings</string>
 
@@ -116,5 +116,5 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
-    <string name="contact_networkk"><u>Don\'t see your college?\nContact us and be the first to\njoin your college to out network</u></string>
+    <string name="contact_network"><u>Don\'t see your college?\n<b>Collaborate with us</b></u></string>
 </resources>

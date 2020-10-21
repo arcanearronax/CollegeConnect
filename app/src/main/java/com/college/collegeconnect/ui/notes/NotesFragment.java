@@ -1,6 +1,7 @@
 package com.college.collegeconnect.ui.notes;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +14,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.college.collegeconnect.DownloadNotes;
+import com.college.collegeconnect.activities.DownloadNotes;
 import com.college.collegeconnect.R;
 import com.college.collegeconnect.datamodels.SaveSharedPreference;
-import com.college.collegeconnect.UploadNotes;
+import com.college.collegeconnect.activities.UploadNotes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -66,12 +68,7 @@ public class NotesFragment extends Fragment {
         semester.setSelection(SaveSharedPreference.getSemester(getContext()));
         unit.setSelection(SaveSharedPreference.getUnit(getContext()));
 
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), UploadNotes.class));
-            }
-        });
+        upload.setOnClickListener(view -> startActivity(new Intent(getContext(), UploadNotes.class)));
 
         semester.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -110,10 +107,12 @@ public class NotesFragment extends Fragment {
 //                Toast.makeText(getActivity(), selected_branch, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getActivity(), DownloadNotes.class);
-                intent.putExtra(DownloadNotes.EXTRA_COURSE, selected_course);
-                intent.putExtra(DownloadNotes.EXTRA_BRANCH, selected_branch);
-                intent.putExtra(DownloadNotes.EXTRA_SEMESTER, selected_semester);
-                intent.putExtra(DownloadNotes.EXTRA_UNIT, selected_unit);
+                Bundle bundle = new Bundle();
+                bundle.putString(DownloadNotes.EXTRA_COURSE, selected_course);
+                bundle.putString(DownloadNotes.EXTRA_BRANCH, selected_branch);
+                bundle.putString(DownloadNotes.EXTRA_SEMESTER, selected_semester);
+                bundle.putString(DownloadNotes.EXTRA_UNIT, selected_unit);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/newBlue"
-    tools:context="com.college.collegeconnect.StepTwoSignUp">
+    android:background="@drawable/ic_sign_up"
+    tools:context="com.college.collegeconnect.activities.StepTwoSignUp">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/otherCollege"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:textColorHint="@color/colorwhite"
-        app:hintTextColor="@color/colorwhite"
+        android:layout_margin="16dp"
+        android:textColorHint="@color/latestBlue"
         android:visibility="gone"
-        style ="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:boxStrokeColor="@drawable/text_box_signup"
-        app:layout_constraintBottom_toTopOf="@id/textbranch"
+        app:hintTextColor="@color/latestBlue"
+        app:layout_constraintBottom_toTopOf="@id/year"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -27,21 +27,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:textCursorDrawable="@null"
             android:hint="College Name"
             android:inputType="textCapCharacters"
-            android:textColor="@color/colorwhite" />
+            android:textColor="@color/latestBlue"
+            android:textCursorDrawable="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/year"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColorHint="@color/latestBlue"
+        android:visibility="visible"
+        app:boxStrokeColor="@drawable/text_box_signup"
+        app:hintTextColor="@color/latestBlue"
+        app:layout_constraintBottom_toTopOf="@id/textbranch"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        tools:visibility="visible">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:hint="Academic Year"
+            android:inputType="numberSigned"
+            android:textColor="@color/latestBlue"
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textbranch"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style ="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:textColorHint="@color/colorwhite"
-        app:hintTextColor="@color/colorwhite"
+        android:layout_margin="16dp"
+        android:textColorHint="@color/latestBlue"
         app:boxStrokeColor="@drawable/text_box_signup"
-        app:layout_constraintBottom_toTopOf="@id/guideline6"
+        app:hintTextColor="@color/latestBlue"
+        app:layout_constraintBottom_toTopOf="@id/textuser"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline5">
@@ -51,43 +78,34 @@
             android:layout_height="wrap_content"
             android:ems="15"
             android:hint="Branch"
-            android:textCursorDrawable="@null"
             android:inputType="textCapCharacters"
-            android:textColor="@color/colorwhite" />
+            android:textColor="@color/latestBlue"
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textuser"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColorHint="@color/colorwhite"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:textColorHint="@color/latestBlue"
         app:boxStrokeColor="@drawable/text_box_signup"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"
+        app:hintTextColor="@color/latestBlue"
+        app:layout_constraintBottom_toTopOf="@+id/stepTwoButton"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:hintTextColor="@color/colorwhite"
-        style ="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/guideline6">
+        app:layout_constraintStart_toStartOf="@+id/guideline5">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:hint="@string/username"
+            android:hint="@string/rollno"
             android:inputType="number"
-            android:textCursorDrawable="@null"
-            android:textColor="@color/colorwhite" />
+            android:textColor="@color/latestBlue"
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.56" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -98,39 +116,11 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.36" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.12" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.87" />
+        app:layout_constraintGuide_percent="0.08" />
 
     <ProgressBar
         android:id="@+id/StepTwoProgressBar"
@@ -149,20 +139,17 @@
         android:id="@+id/stepTwoButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
         android:background="@drawable/button_design"
+        android:backgroundTint="@color/latestBlue"
         android:text="@string/sign_up"
-        android:textColor="@color/newBlue"
+        android:textAllCaps="false"
+        android:textColor="@color/colorwhite"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/textView21"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@id/textuser" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="526dp" />
+        app:layout_constraintStart_toStartOf="@+id/guideline5" />
 
     <TextView
         android:id="@+id/textView13"
@@ -171,53 +158,56 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif"
-        android:text="Step 2/2"
+        android:text="Register"
         android:textColor="@color/colorwhite"
-        android:textSize="50sp"
+        android:textSize="45sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
     <TextView
+        android:id="@+id/select_college"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select College"
-        android:textColor="@color/colorwhite"
+        android:textColor="@color/latestBlue"
         app:layout_constraintBottom_toTopOf="@id/collegeSpinner"
-        app:layout_constraintStart_toStartOf="@id/collegeSpinner"
-        android:layout_margin="10dp"/>
+        app:layout_constraintStart_toStartOf="@id/collegeSpinner" />
 
     <Spinner
         android:id="@+id/collegeSpinner"
+        android:paddingEnd="20dp"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/spinner_layout"
         app:layout_constraintBottom_toTopOf="@+id/otherCollege"
         app:layout_constraintEnd_toEndOf="@id/textbranch"
         app:layout_constraintStart_toStartOf="@+id/textbranch" />
 
     <ImageView
-    android:id="@+id/imageView8"
-    android:layout_width="20dp"
-    android:layout_height="20dp"
-    app:layout_constraintBottom_toBottomOf="@id/collegeSpinner"
-    app:layout_constraintEnd_toEndOf="@id/collegeSpinner"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
-    android:background="@drawable/ic_arrow_down" />
+        android:id="@+id/imageView8"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:elevation="2dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ic_arrow_down"
+        app:layout_constraintBottom_toBottomOf="@id/collegeSpinner"
+        app:layout_constraintEnd_toEndOf="@id/collegeSpinner" />
 
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/contact_networkk"
-        android:textAlignment="center"
         android:clickable="true"
         android:focusable="true"
-        android:textColor="@android:color/white"
+        android:text="@string/contact_network"
+        android:textAlignment="center"
+        android:textColor="@color/latestBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline5" />
