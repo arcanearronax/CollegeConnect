@@ -37,20 +37,26 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.ViewHolder
         return new WorkerAdapter.ViewHolder(view);
     }
 
+    /*
+     * This is how we connect a data Holder to a View
+     *
+     */
     @Override
     public void onBindViewHolder(@NonNull WorkerAdapter.ViewHolder holder, int position) {
         checked_item = 0;
         Log.e(LOGTAG, "We binded some data");
 
-        // We need to add the data to the holder
+        // We need to add the data to the holder object
         holder.workerDetail.setText(options.get(position));
         holder.positionId.setText(String.valueOf(position));
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+
             // This is what we do when the view is clicked
             @Override
             public void onClick(View v) {
                 Log.e(LOGTAG, "We got a worker click");
                 v.postDelayed(new Runnable() {
+
                     // This is what we do as our executed action
                     @Override
                     public void run() {

@@ -22,12 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.college.collegeconnect.R;
 import com.college.collegeconnect.settingsActivity.MyFilesActivity;
-import com.college.collegeconnect.settingsActivity.TrialWorker;
 import com.college.collegeconnect.settingsActivity.WorkProfile;
 import com.college.collegeconnect.datamodels.SaveSharedPreference;
 import com.college.collegeconnect.settingsActivity.AboutActivity;
 import com.college.collegeconnect.settingsActivity.ContactActivity;
-import com.college.collegeconnect.settingsActivity.WorkerActivity;
+import com.college.collegeconnect.settingsActivity.WorkManagerActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -48,7 +47,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
     Class workprofile = WorkProfile.class;
     Class contactus = ContactActivity.class;
     Class about = AboutActivity.class;
-    Class worker = WorkerActivity.class;
+    Class worker = WorkManagerActivity.class;
     // Need to add an icon here when adding a new menu item
     int images[] = {R.drawable.ic_brightness_24dp, R.drawable.ic_addchart_24px, R.drawable.ic_uploadlist, R.drawable.ic_work_24px, R.drawable.ic_contactus, R.drawable.ic_about, R.drawable.ic_about};
 

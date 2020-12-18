@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".settingsActivity.WorkerActivity"></activity>
+        <activity android:name=".settingsActivity.WorkManagerActivity" />
         <activity android:name=".ui.event.bvest.TeamDetails" />
         <activity android:name=".settingsActivity.MyFilesActivity" />
         <activity android:name=".ui.event.bvest.BvestEventActivity" />

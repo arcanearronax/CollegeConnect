@@ -1,79 +1,68 @@
 package com.college.collegeconnect.settingsActivity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.college.collegeconnect.DividerItemDecoration;
 import com.college.collegeconnect.R;
-import com.college.collegeconnect.adapters.WorkerAdapter;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 
 public class WorkerActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private WorkerAdapter workerAdapter;
-
-    private static final String LOGTAG = "AboutActivity";
+    private DatePickerDialog datePicker;
+    private Calendar calendar;
+    private int year;
+    private int month;
+    private int dayOfMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_worker);
 
-        Log.e(LOGTAG, "Creating WorkerActivity");
-
-        // We create a toolbar, then add that to our layout
-        Toolbar toolbar = findViewById(R.id.toolbarcom);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         // Update the elements in our toolbar to display some info we want
         TextView barTitle = findViewById(R.id.tvtitle);
-        barTitle.setText("About");
-        TextView viewText = findViewById(R.id.textView_worker);
-        viewText.setText("Hello Friend, this is just a test");
+        barTitle.setText("Create Work");
 
-        // Now we bind our WorkerRecycler
-        recyclerView = findViewById(R.id.recycler_worker);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        /*
+         * TODO: we'll need to capture...
+         *   *Class schedule pattern, assuming weekly recurrence
+         *   *End time of the class for each day
+         *   *Start date of the class schedule pattern
+         *   *End date of the class schedule pattern
+         *   *Name of the class
+         */
 
-        // Put the items to go in the recycler in a list
-        ArrayList<String> menu_options = new ArrayList<>();
-        menu_options.add("Test0");
-        menu_options.add("Test1");
-        menu_options.add("Test2");
+        // Now here we build a listener to add a class name
+        EditText classView = findViewById(R.id.row_0_value);
 
-        // Create and connect our WorkerAdapter
-        workerAdapter = new WorkerAdapter(menu_options, this);
-        recyclerView.setAdapter(workerAdapter);
+        // And take care of the start date selector
+        TextView startView = findViewById(R.id.row_1_value);
 
-        // Decorate our recycler
-        DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST, 80, 0);
-        recyclerView.addItemDecoration(decoration);
-    }
+        startView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get our objects set
+                calendar = Calendar.getInstance();
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH);
+                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                // Create our picker
+                datePicker = new DatePickerDialog(WorkerActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
+                        startView.setText((month + 1) + "/" + day + "/" + year);
+                    }
+                }, year, month, dayOfMonth);
+                datePicker.show();
+            }
+        });
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
