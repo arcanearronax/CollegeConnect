@@ -4,9 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -14,21 +21,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.college.collegeconnect.Notification;
 import com.college.collegeconnect.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 public class AboutActivity extends AppCompatActivity {
 
     private StringBuilder text = new StringBuilder();
     ImageView imageView;
+    private static final String LOGTAG = "AboutActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        Log.e(LOGTAG, "Creating About Activity");
+
+        // This is just a hack to get a work manager proof of concept
+        try {
+            Log.e(LOGTAG, "Attempted to create work");
+            PeriodicWorkRequest workReq = new PeriodicWorkRequest.Builder(TrialWorker.class, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES).build();
+            //OneTimeWorkRequest workReq = new OneTimeWorkRequest.Builder(TrialWorker.class).build();
+            WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("arcane_logging", ExistingPeriodicWorkPolicy.KEEP, workReq);
+            //WorkManager.getInstance(getApplicationContext()).enqueue(workReq);
+
+        } catch (Exception e) {
+            Log.e(LOGTAG, e.toString());
+        }
+
+        // This is just a hack to trigger a notification
+        //NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //Notification notify = new Notification(android.R.drawable.stat_notify_more,title,System.currentTimeMillis());
+        //Notification.displayNotification(getApplicationContext(), "Testing", "Alert");
+
 
         Toolbar toolbar = findViewById(R.id.toolbarcom);
         setSupportActionBar(toolbar);

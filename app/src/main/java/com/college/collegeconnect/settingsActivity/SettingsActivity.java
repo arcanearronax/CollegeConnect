@@ -7,6 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
+import android.content.ContentProvider;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -37,6 +43,8 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -99,6 +107,8 @@ public class SettingsActivity extends AppCompatActivity {
         options.add("Work Profile");
         options.add("Contact Us");
         options.add("About");
+        options.add("Worker");
+//        options.add("Work Manager");
 
         recyclerView = findViewById(R.id.settings_recycler);
         recyclerView.setHasFixedSize(true);

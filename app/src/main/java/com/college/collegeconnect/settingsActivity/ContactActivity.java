@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.work.WorkManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -23,10 +25,24 @@ import java.util.List;
 
 public class ContactActivity extends AppCompatActivity {
 
+    private static final String LOGTAG = "ContactActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        Log.e(LOGTAG, "Create Contact Activity");
+
+        // This is just here as a hack to remove existing jobs
+        try {
+            Context myContext = getApplicationContext();
+            WorkManager.getInstance(myContext).cancelAllWork();
+            Log.e(LOGTAG, "Cancelled all work");
+        } catch (Exception e) {
+            Log.e(LOGTAG, e.toString());
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbarcom);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
