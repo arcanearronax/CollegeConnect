@@ -17,7 +17,7 @@ import android.widget.TimePicker;
 
 import com.college.collegeconnect.R;
 import com.college.collegeconnect.adapters.WorkerAdapter;
-import com.college.collegeconnect.models.NotificationModel;
+//import com.college.collegeconnect.models.NotificationModel;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
@@ -26,7 +26,7 @@ public class WorkerActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "WorkerActivity";
 
-    private NotificationModel notificationModel;
+    //private NotificationModel notificationModel;
     private WorkerAdapter workerAdapter;
 
     private DatePickerDialog datePicker;
@@ -102,35 +102,43 @@ public class WorkerActivity extends AppCompatActivity {
 
     public final void createWork(View view) {
         // Let's just hide the error, in case we get a resubmit
+        Log.d(LOGTAG, "start createWork");
         TextView warningText = findViewById(R.id.warning_worker_text);
         warningText.setVisibility(View.GONE);
 
         CharSequence className = classView.getText();
         CharSequence startDate = startView.getText();
         CharSequence endDate = endView.getText();
+        Log.e(LOGTAG, "Got our dates");
 
         // We need to parse the date fields
-        Pattern pattern = Pattern.compile("/");
-        String[] endArray = pattern.split(endDate);
-        String[] startArray = pattern.split(startDate);
-        String endYear = inflateValue(endArray[2]);
-        String endMonth = inflateValue(endArray[0]);
-        String endDayOfMonth = inflateValue(endArray[1]);
-        String startYear = inflateValue(startArray[2]);
-        String startMonth = inflateValue(startArray[0]);
-        String startDayOfMonth = inflateValue(startArray[1]);
+        try {
+            Pattern pattern = Pattern.compile("/");
+            String[] endArray = pattern.split(endDate);
+            String[] startArray = pattern.split(startDate);
+            String endYear = inflateValue(endArray[2]);
+            String endMonth = inflateValue(endArray[0]);
+            String endDayOfMonth = inflateValue(endArray[1]);
+            String startYear = inflateValue(startArray[2]);
+            String startMonth = inflateValue(startArray[0]);
+            String startDayOfMonth = inflateValue(startArray[1]);
+            Log.e(LOGTAG, "Parsed our stuff");
+        } catch (Exception e) {
+            Log.e(LOGTAG, e.toString());
+        }
 
         if (className.length() != 2 || startDate.length() != 2 || endDate.length() != 2) {
             Log.d(LOGTAG, "We're missing some data");
             warningText.setText("An error occurred when creating the worker.");
             warningText.setVisibility(View.VISIBLE);
         } else {
-
+            Log.e(LOGTAG, "We got valid data.");
             // We need to account for some type of exception being thrown
             try {
-
+                Log.e(LOGTAG, "Trying stuff");
                 int classId = 1;
 
+                /*
                 // Create our notification
                 notificationModel.addNotification(
                         classId,
@@ -141,6 +149,7 @@ public class WorkerActivity extends AppCompatActivity {
                         Integer.parseInt(startMonth),
                         Integer.parseInt(startDayOfMonth)
                 );
+                 */
 
                 /*
                 // This is here to build periodic requests later

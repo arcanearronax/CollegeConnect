@@ -39,6 +39,7 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+        /*
         // Adding this to test database migrations
         javaCompileOptions {
             annotationProcessorOptions {
@@ -46,6 +47,7 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        */
     }
 
     // Adding this to test database migrations
