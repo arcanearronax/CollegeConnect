@@ -9,6 +9,11 @@ import androidx.work.WorkerParameters;
 
 import com.college.collegeconnect.Notification;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.sql.Date;
+import java.sql.Time;
+
 public class TrialWorker extends Worker {
 
     private static final String LOGTAG = "UploadWorker";
@@ -23,11 +28,18 @@ public class TrialWorker extends Worker {
 
     @Override
     public void onStopped() {
+
         Log.e(LOGTAG, "Stopping worker - " + getId());
+
     }
 
+    @NotNull
     @Override
     public Result doWork() {
+
+        // This is an old way to get notifications to appear
+        //NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //Notification notify = new Notification(android.R.drawable.stat_notify_more,title,System.currentTimeMillis());
 
         // Assume we have a failure, unless told otherwise
         Result work_result = Result.failure();

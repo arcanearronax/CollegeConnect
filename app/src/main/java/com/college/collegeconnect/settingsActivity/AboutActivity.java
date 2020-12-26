@@ -41,24 +41,6 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         Log.e(LOGTAG, "Creating About Activity");
 
-        // This is just a hack to get a work manager proof of concept
-        try {
-            Log.e(LOGTAG, "Attempted to create work");
-            PeriodicWorkRequest workReq = new PeriodicWorkRequest.Builder(TrialWorker.class, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES).build();
-            //OneTimeWorkRequest workReq = new OneTimeWorkRequest.Builder(TrialWorker.class).build();
-            WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("arcane_logging", ExistingPeriodicWorkPolicy.KEEP, workReq);
-            //WorkManager.getInstance(getApplicationContext()).enqueue(workReq);
-
-        } catch (Exception e) {
-            Log.e(LOGTAG, e.toString());
-        }
-
-        // This is just a hack to trigger a notification
-        //NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //Notification notify = new Notification(android.R.drawable.stat_notify_more,title,System.currentTimeMillis());
-        //Notification.displayNotification(getApplicationContext(), "Testing", "Alert");
-
-
         Toolbar toolbar = findViewById(R.id.toolbarcom);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

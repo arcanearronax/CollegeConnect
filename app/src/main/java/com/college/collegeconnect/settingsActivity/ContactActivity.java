@@ -32,17 +32,6 @@ public class ContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
-        Log.e(LOGTAG, "Create Contact Activity");
-
-        // This is just here as a hack to remove existing jobs
-        try {
-            Context myContext = getApplicationContext();
-            WorkManager.getInstance(myContext).cancelAllWork();
-            Log.e(LOGTAG, "Cancelled all work");
-        } catch (Exception e) {
-            Log.e(LOGTAG, e.toString());
-        }
-
         Toolbar toolbar = findViewById(R.id.toolbarcom);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

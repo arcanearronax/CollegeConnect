@@ -19,8 +19,6 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".settingsActivity.WorkerActivity"></activity>
-        <activity android:name=".settingsActivity.WorkManagerActivity" />
         <activity android:name=".ui.event.bvest.TeamDetails" />
         <activity android:name=".settingsActivity.MyFilesActivity" />
         <activity android:name=".ui.event.bvest.BvestEventActivity" />
@@ -83,6 +81,15 @@
         <activity
             android:name=".settingsActivity.SettingsActivity"
             android:parentActivityName=".settingsActivity.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".settingsActivity.WorkManagerActivity"
+            android:parentActivityName=".settingsActivity.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".settingsActivity.WorkerActivity"
+            android:parentActivityName=".settingsActivity.WorkManagerActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 

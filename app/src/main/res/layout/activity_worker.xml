@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".settingsActivity.WorkerActivity">
 
@@ -13,6 +14,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/warning_worker_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/longTag"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,16 +30,17 @@
         <TextView
             android:id="@+id/row_0_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:labelFor="@id/row_0_value"
             android:text="Class Name" />
 
-        <AutoCompleteTextView
+        <EditText
             android:id="@+id/row_0_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:maxLines="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,15 +51,17 @@
         <TextView
             android:id="@+id/row_1_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:labelFor="@id/row_1_value"
             android:text="Start Date" />
 
         <TextView
             android:id="@+id/row_1_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:minHeight="40dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,20 +72,22 @@
         <TextView
             android:id="@+id/row_2_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:labelFor="@id/row_2_value"
             android:text="End Date" />
 
-        <EditText
+        <TextView
             android:id="@+id/row_2_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:minHeight="40dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -84,13 +98,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="vertical">
 
@@ -100,15 +114,17 @@
 
                     <TextView
                         android:id="@+id/day_0_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="92dp"
                         android:layout_height="wrap_content"
+                        android:labelFor="@id/day_0_value"
                         android:padding="10dp"
                         android:text="Sunday" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/day_0_value"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:hint="@string/hint_class_end_time" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,15 +133,17 @@
 
                     <TextView
                         android:id="@+id/day_1_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="92dp"
                         android:layout_height="wrap_content"
+                        android:labelFor="@id/day_1_value"
                         android:padding="10dp"
                         android:text="Monday" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/day_1_value"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:hint="@string/hint_class_end_time" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -134,15 +152,19 @@
 
                     <TextView
                         android:id="@+id/day_2_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="92dp"
                         android:layout_height="wrap_content"
+                        android:labelFor="@id/day_2_value"
                         android:padding="10dp"
                         android:text="Tuesday" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/day_2_value"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/hint_class_end_time" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -153,13 +175,15 @@
                         android:id="@+id/day_3_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:labelFor="@id/day_3_value"
                         android:padding="10dp"
                         android:text="Wednesday" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/day_3_value"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:hint="@string/hint_class_end_time" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -168,15 +192,17 @@
 
                     <TextView
                         android:id="@+id/day_4_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="92dp"
                         android:layout_height="wrap_content"
+                        android:labelFor="@id/day_4_value"
                         android:padding="10dp"
                         android:text="Thursday" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/day_4_value"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:hint="@string/hint_class_end_time" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -185,37 +211,49 @@
 
                     <TextView
                         android:id="@+id/day_5_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="92dp"
                         android:layout_height="wrap_content"
+                        android:labelFor="@id/day_5_value"
                         android:padding="10dp"
                         android:text="Friday" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/day_5_value"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:hint="@string/hint_class_end_time" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/day_6_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="92dp"
                         android:layout_height="wrap_content"
+                        android:labelFor="@id/day_6_value"
                         android:padding="10dp"
                         android:text="Saturday" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/day_6_value"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:hint="@string/hint_class_end_time" />
+
                 </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_create_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="createWork"
+        android:text="Create Work" />
 
 </LinearLayout>

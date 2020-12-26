@@ -60,19 +60,6 @@ public class WorkManagerActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     // Just launch a new activity
                     startActivity(new Intent(WorkManagerActivity.this, WorkerActivity.class));
-                    // Get our objects set
-                    calendar = Calendar.getInstance();
-                    year = calendar.get(Calendar.YEAR);
-                    month = calendar.get(Calendar.MONTH);
-                    dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                    // Create our picker
-                    datePicker = new DatePickerDialog(WorkManagerActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
-                                viewText.setText((month + 1) + "/" + day +  "/" + year);
-                            }
-                    }, year, month, dayOfMonth);
-                    datePicker.show();
                 }
             }
         );
