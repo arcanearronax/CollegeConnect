@@ -17,13 +17,16 @@ import java.sql.Time;
 public class TrialWorker extends Worker {
 
     private static final String LOGTAG = "UploadWorker";
-    private static final int MAXRETRIES = 1;
-    private int retryCount = 0;
+    private String title;
+    private String body;
 
     public TrialWorker(
             @NonNull Context context,
-            @NonNull WorkerParameters params) {
+            @NonNull WorkerParameters params
+    ) {
         super(context, params);
+        title = getInputData().getString("TITLE");
+        body = getInputData().getString("BODY");
     }
 
     @Override
@@ -37,10 +40,6 @@ public class TrialWorker extends Worker {
     @Override
     public Result doWork() {
 
-        // This is an old way to get notifications to appear
-        //NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //Notification notify = new Notification(android.R.drawable.stat_notify_more,title,System.currentTimeMillis());
-
         // Assume we have a failure, unless told otherwise
         Result work_result = Result.failure();
 
@@ -49,7 +48,7 @@ public class TrialWorker extends Worker {
 
             // This is the part that might throw an error
             Log.e(LOGTAG, "TrialWorker Run ");
-            Notification.displayNotification(getApplicationContext(), "TrialWorker", "Message body");
+            Notification.displayNotification(getApplicationContext(), title, body);
 
             // Set the retry counter to zero and create a success
             work_result = Result.success();
@@ -61,8 +60,6 @@ public class TrialWorker extends Worker {
             // Clean up the attempt
             Log.wtf(LOGTAG, "Worker Run Failure");
 
-            // Increment the counter and create a retry
-            retryCount++;
             work_result = Result.retry();
         }
 

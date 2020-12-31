@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.WorkManager;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -24,22 +25,18 @@ import java.util.Calendar;
 
 public class WorkManagerActivity extends AppCompatActivity {
 
+    private static final String LOGTAG = "WorkerManagerActivity";
     private RecyclerView recyclerView;
     private WorkerAdapter workerAdapter;
-    private DatePickerDialog datePicker;
-    private Calendar calendar;
-    private int year;
-    private int month;
-    private int dayOfMonth;
-
-    private static final String LOGTAG = "WorkerManagerActivity";
+    ArrayList<String> menu_options;
+    private static final int REQUEST_MANAGER = 0;
+    private WorkManager workManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e(LOGTAG, "Creating WorkManagerActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_worker_manager);
-
-        Log.e(LOGTAG, "Creating WorkManagerActivity");
 
         // We create a toolbar, then add that to our layout
         Toolbar toolbar = findViewById(R.id.toolbarcom);
@@ -59,7 +56,7 @@ public class WorkManagerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     // Just launch a new activity
-                    startActivity(new Intent(WorkManagerActivity.this, WorkerActivity.class));
+                    startActivityForResult(new Intent(WorkManagerActivity.this, WorkerActivity.class), REQUEST_MANAGER);
                 }
             }
         );
@@ -72,10 +69,11 @@ public class WorkManagerActivity extends AppCompatActivity {
 
         // Build the data we provide to our Adapter
         // TODO: We need to get a list of currently active notification workers for the user
-        ArrayList<String> menu_options = new ArrayList<>();
+        menu_options = new ArrayList<>();
         menu_options.add("Test0");
         menu_options.add("Test1");
         menu_options.add("Test2");
+        workManager = WorkManager.getInstance();
 
         // Create and connect our Adapter
         workerAdapter = new WorkerAdapter(menu_options, this);
@@ -94,5 +92,24 @@ public class WorkManagerActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == REQUEST_MANAGER) {
+            Log.e(LOGTAG, "Got a manager request");
+            if (resultCode == RESULT_OK) {
+                Log.e(LOGTAG, "Got a valid request");
+                menu_options.add("Test3");
+                workerAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private void getMenuOptions(String tag) {
+        workManager.getWorkInfosByTag(tag);
     }
 }

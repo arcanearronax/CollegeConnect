@@ -3,12 +3,15 @@ package com.college.collegeconnect.settingsActivity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +23,7 @@ import com.college.collegeconnect.adapters.WorkerAdapter;
 //import com.college.collegeconnect.models.NotificationModel;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class WorkerActivity extends AppCompatActivity {
@@ -116,6 +120,17 @@ public class WorkerActivity extends AppCompatActivity {
             Pattern pattern = Pattern.compile("/");
             String[] endArray = pattern.split(endDate);
             String[] startArray = pattern.split(startDate);
+
+            Log.e(LOGTAG, "endArray");
+            for (String value: endArray) {
+                Log.e(LOGTAG, value);
+            }
+
+            Log.e(LOGTAG, "startArray");
+            for (String value: startArray) {
+                Log.e(LOGTAG, value);
+            }
+
             String endYear = inflateValue(endArray[2]);
             String endMonth = inflateValue(endArray[0]);
             String endDayOfMonth = inflateValue(endArray[1]);
@@ -127,7 +142,7 @@ public class WorkerActivity extends AppCompatActivity {
             Log.e(LOGTAG, e.toString());
         }
 
-        if (className.length() != 2 || startDate.length() != 2 || endDate.length() != 2) {
+        if (className.length() < 1 || startDate.length() < 1 || endDate.length() < 1) {
             Log.d(LOGTAG, "We're missing some data");
             warningText.setText("An error occurred when creating the worker.");
             warningText.setVisibility(View.VISIBLE);
@@ -138,36 +153,42 @@ public class WorkerActivity extends AppCompatActivity {
                 Log.e(LOGTAG, "Trying stuff");
                 int classId = 1;
 
-                /*
-                // Create our notification
-                notificationModel.addNotification(
-                        classId,
-                        Integer.parseInt(endYear),
-                        Integer.parseInt(endMonth),
-                        Integer.parseInt(endDayOfMonth),
-                        Integer.parseInt(startYear),
-                        Integer.parseInt(startMonth),
-                        Integer.parseInt(startDayOfMonth)
-                );
-                 */
+                Data inputData = new Data.Builder()
+                        .putString("TITLE", className.toString())
+                        .putString("BODY", "Add your attendance")
+                        .build();
 
                 /*
-                // This is here to build periodic requests later
+                // This is here to build periodic work requests
                 PeriodicWorkRequest workReq = new PeriodicWorkRequest.Builder(
                         TrialWorker.class,
                         15,
                         TimeUnit.MINUTES,
                         5,
                         TimeUnit.MINUTES
-                ).build();
-                WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("arcane_logging", ExistingPeriodicWorkPolicy.KEEP, workReq);
+                )
+                        .addTag(className.toString())
+                        .setInputData(inputData)
+                        .build();
                 */
 
                 // This is here so we can build a one time request, for as needed usage
-                OneTimeWorkRequest workReq = new OneTimeWorkRequest.Builder(TrialWorker.class).build();
-                WorkManager.getInstance(getApplicationContext()).enqueue(workReq);
+                OneTimeWorkRequest workReq = new OneTimeWorkRequest.Builder(TrialWorker.class)
+                        .addTag(className.toString())
+                        .setInputData(inputData)
+                        .build();
 
-                workerAdapter.notifyDataSetChanged();
+
+
+                // This is here to build periodic requests
+                WorkManager.getInstance(getApplicationContext()).enqueue(workReq);
+                /*
+                // This is here to build UNIQUE periodic requests
+                WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("arcane_logging", ExistingPeriodicWorkPolicy.KEEP, workReq);
+                */
+
+                setResult(RESULT_OK, new Intent(this, WorkManagerActivity.class));
+                finish();
 
             } catch (Exception e) {
                 // Make the error message visible
