@@ -115,6 +115,8 @@ class NewTimeTable : AppCompatActivity() {
             override fun onPostExecute(result: Void?) {
                 super.onPostExecute(result)
                 Toast.makeText(applicationContext, "Class added", Toast.LENGTH_SHORT).show()
+
+                // Now we need to create a notification for the class at the end time
             }
         }
         SaveClass().execute()

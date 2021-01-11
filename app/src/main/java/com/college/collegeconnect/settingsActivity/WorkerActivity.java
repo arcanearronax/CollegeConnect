@@ -29,10 +29,6 @@ import java.util.regex.Pattern;
 public class WorkerActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "WorkerActivity";
-
-    //private NotificationModel notificationModel;
-    private WorkerAdapter workerAdapter;
-
     private DatePickerDialog datePicker;
     private Calendar calendar;
     private int year;

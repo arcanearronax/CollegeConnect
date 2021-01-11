@@ -4,11 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,18 +26,21 @@ import android.widget.TextView;
 import com.college.collegeconnect.DividerItemDecoration;
 import com.college.collegeconnect.R;
 import com.college.collegeconnect.adapters.WorkerAdapter;
+import com.college.collegeconnect.settingsActivity.models.WorkerViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class WorkManagerActivity extends AppCompatActivity {
+public class WorkManagerActivity extends AppCompatActivity implements LifecycleOwner {
 
     private static final String LOGTAG = "WorkerManagerActivity";
     private RecyclerView recyclerView;
+    private WorkerViewModel workerViewModel;
     private WorkerAdapter workerAdapter;
     ArrayList<String> menu_options;
     private static final int REQUEST_MANAGER = 0;
-    private WorkManager workManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +80,12 @@ public class WorkManagerActivity extends AppCompatActivity {
         // Build the data we provide to our Adapter
         // TODO: We need to get a list of currently active notification workers for the user
         menu_options = new ArrayList<>();
-        menu_options.add("Test0");
-        menu_options.add("Test1");
-        menu_options.add("Test2");
-        workManager = WorkManager.getInstance();
+        //menu_options.add("Test0");
+        //menu_options.add("Test1");
+        //menu_options.add("Test2");
+
+        workerViewModel = new ViewModelProvider(this).get(WorkerViewModel.class);
+        workerViewModel.getWorkerMutableLiveData().observe(this, workerListUpdateObserver);
 
         // Create and connect our Adapter
         workerAdapter = new WorkerAdapter(menu_options, this);
@@ -109,7 +121,14 @@ public class WorkManagerActivity extends AppCompatActivity {
         }
     }
 
-    private void getMenuOptions(String tag) {
-        workManager.getWorkInfosByTag(tag);
-    }
+    Observer<ArrayList<String>> workerListUpdateObserver = new Observer<ArrayList<String>>() {
+        @Override
+        public void onChanged(ArrayList<String> workInfo) {
+            Context context = getApplicationContext();
+            workerAdapter = new WorkerAdapter(menu_options, context);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(workerAdapter);
+        }
+    };
+
 }
